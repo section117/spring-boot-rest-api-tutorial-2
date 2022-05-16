@@ -9,8 +9,13 @@ spring.datasource.username=username
 spring.datasource.password=password
 spring.datasource.hikari.maximum-pool-size=10
 
-custom.authentication.oauth.client_id=clientId
-custom.authentication.oauth.client_secret=clientSecret
-custom.authentication.jwt_signing_mac_key=jwtSigningKey
-custom.authentication.access_token_validity_seconds=1000
-custom.authentication.oauth.refresh_token_validity_seconds=2000
+server.port=8081
+
+#Keycloak Configuration
+keycloak.auth-server-url=http://localhost:8081/auth
+keycloak.realm=Spring-boot-rest-api
+keycloak.ssl-required=external
+keycloak.resource=spring-boot-client
+keycloak.credentials.secret=xie0EVLIiHCiP4pmgbJa8nS2fpatR8Fl
+keycloak.use-resource-role-mappings=true
+keycloak.bearer-only=true
