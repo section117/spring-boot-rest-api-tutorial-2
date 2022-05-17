@@ -12,10 +12,15 @@ spring.datasource.hikari.maximum-pool-size=10
 server.port=8081
 
 #Keycloak Configuration
-keycloak.auth-server-url=http://localhost:8081/auth
-keycloak.realm=Spring-boot-rest-api
+keycloak.auth-server-url=http://localhost:8081
+keycloak.realm=realm
 keycloak.ssl-required=external
-keycloak.resource=spring-boot-client
-keycloak.credentials.secret=xie0EVLIiHCiP4pmgbJa8nS2fpatR8Fl
+keycloak.resource=clientid
+keycloak.credentials.secret=clientsecret
 keycloak.use-resource-role-mappings=true
 keycloak.bearer-only=true
+
+#Custom properties
+#Keycloak custom properties
+custom.keycloak.admin_username=admin
+custom.keycloak.admin_password=password

@@ -19,8 +19,6 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String password;
 
     //This represents user type.
     //It can be either 'USER', or 'ADMIN' in our application.

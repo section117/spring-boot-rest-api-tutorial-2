@@ -1,4 +1,4 @@
-package com.api.restapitutorial1.security;
+package com.api.restapitutorial1.config.keycloak;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
