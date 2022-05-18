@@ -6,15 +6,20 @@ import com.api.restapitutorial1.model.User;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.core.Response;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -24,6 +29,15 @@ public class UserService {
 
     @Autowired
     private KeycloakAdminClientConfig keycloakAdminClientConfig;
+
+    @Value("${keycloak.resource}")
+    private String clientId;
+    @Value("${keycloak.credentials.secret}")
+    private String clientSecret;
+    @Value("${keycloak.auth-server-url}")
+    private String authServerURL;
+    @Value("${keycloak.realm}")
+    private String realmName;
 
     @Transactional(rollbackFor = Exception.class)
     public Object addUser(String name, String email, String password, String role) throws Exception {
@@ -66,5 +80,23 @@ public class UserService {
             throw new Exception("Failed to add the user to Keycloak " + response.readEntity(String.class));
 
         return "User Added successfully.";
+    }
+
+    public Object login(String email, String password) {
+
+        User user = userRepository.loadUserByEmail(email);
+        if(user == null) {
+            return "No such user";
+        }
+
+        Map<String,Object> clientCredentials = new HashMap<>();
+        clientCredentials.put("secret", clientSecret);
+        clientCredentials.put("grant_type", "password");
+
+        Configuration configuration =
+                new Configuration(authServerURL, realmName, clientId, clientCredentials, null);
+        AuthzClient authzClient = AuthzClient.create(configuration);
+
+        return authzClient.obtainAccessToken(Long.toString(user.getId()), password);
     }
 }

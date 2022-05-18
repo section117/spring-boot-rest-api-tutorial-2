@@ -1,9 +1,9 @@
 package com.api.restapitutorial1.controller;
 
 import com.api.restapitutorial1.dto.AddUserDTO;
+import com.api.restapitutorial1.dto.UserLoginDTO;
 import com.api.restapitutorial1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +25,10 @@ public class UserController {
             e.printStackTrace();
             return "Error";
         }
+    }
+
+    @PostMapping("/users/login")
+    public Object login(@RequestBody UserLoginDTO userLoginDTO) {
+        return userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
     }
 }
